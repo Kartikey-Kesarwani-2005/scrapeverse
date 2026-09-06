@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   ArrowUpRight01Icon,
@@ -10,38 +9,15 @@ import {
 } from "@hugeicons/core-free-icons";
 import { Badge } from "@/components/ui/badge";
 import { CheckIcon } from "@/components/ui/check-icon";
+import { EffortMeter } from "./effort-meter";
+import { MatchRadar } from "./match-radar";
+import { TrackButton } from "./track-button";
 import { MATCHED_LABELS } from "@/lib/labels";
 import { languageColorMap } from "@/lib/languages";
 import type { Recommendation, MatchScoreBreakdown } from "@/lib/types";
 import { useInView } from "@/lib/use-in-view";
+import { useCountUp } from "@/lib/use-count-up";
 import { cn } from "@/lib/utils";
-
-const prefersReducedMotion = () =>
-  typeof window !== "undefined" &&
-  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-function useCountUp(target: number, duration = 900): number {
-  const [value, setValue] = useState(0);
-
-  useEffect(() => {
-    let frame: number;
-    const start = performance.now();
-    const tick = (now: number) => {
-      if (prefersReducedMotion()) {
-        setValue(target);
-        return;
-      }
-      const progress = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setValue(Math.round(eased * target));
-      if (progress < 1) frame = requestAnimationFrame(tick);
-    };
-    frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
-  }, [target, duration]);
-
-  return value;
-}
 
 interface RecommendationCardProps {
   recommendation: Recommendation;
@@ -221,14 +197,21 @@ export function RecommendationCard({
         </div>
 
         {matchScore.breakdown.length > 0 && (
-          <div className="mb-4 space-y-1 rounded-xl bg-muted/40 p-3">
-            <ScoreBreakdownGroup items={languageItems} label="Lang" />
-            <ScoreBreakdownGroup items={interestItems} label="Fit" />
-            <ScoreBreakdownGroup items={issueItems} label="Issue" />
-            <ScoreBreakdownGroup items={projectItems} label="Repo" />
-            {goalItems.length > 0 && (
-              <ScoreBreakdownGroup items={goalItems} label="Goal" />
-            )}
+          <div className="mb-4 flex items-center gap-3 rounded-xl bg-muted/40 p-3">
+            <MatchRadar
+              breakdown={matchScore.breakdown}
+              size={132}
+              className="w-[132px] shrink-0"
+            />
+            <div className="min-w-0 flex-1 space-y-1">
+              <ScoreBreakdownGroup items={languageItems} label="Lang" />
+              <ScoreBreakdownGroup items={interestItems} label="Fit" />
+              <ScoreBreakdownGroup items={issueItems} label="Issue" />
+              <ScoreBreakdownGroup items={projectItems} label="Repo" />
+              {goalItems.length > 0 && (
+                <ScoreBreakdownGroup items={goalItems} label="Goal" />
+              )}
+            </div>
           </div>
         )}
 
@@ -301,6 +284,10 @@ export function RecommendationCard({
           </span>
         </div>
 
+        <div className="mb-4">
+          <EffortMeter effort={recommendation.effort} />
+        </div>
+
         {recommendation.matchedLabels.length > 0 && (
           <div className="mb-4 flex flex-wrap gap-1.5">
             {recommendation.matchedLabels.map((label) => (
@@ -314,6 +301,10 @@ export function RecommendationCard({
             ))}
           </div>
         )}
+
+        <div className="mb-4">
+          <TrackButton recommendation={recommendation} />
+        </div>
 
         <div className="mt-auto rounded-xl bg-secondary/70 p-4">
           <p className="mb-2 text-[10px] font-bold tracking-[0.14em] text-secondary-foreground uppercase">

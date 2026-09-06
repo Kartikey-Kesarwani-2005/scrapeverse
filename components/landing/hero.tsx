@@ -9,6 +9,7 @@ import {
 } from "@hugeicons/core-free-icons";
 import { Button } from "@/components/ui/button";
 import { GlowOrbs } from "@/components/ui/glow-orbs";
+import { LiveStats } from "@/components/ui/live-stats";
 import { languageColorMap } from "@/lib/languages";
 
 interface HeroProps {
@@ -184,6 +185,13 @@ export function Hero({ onGetStarted }: HeroProps) {
           className="animate-fade-up mt-16 sm:mt-20"
         >
           <PreviewWindow />
+        </div>
+
+        <div
+          style={{ animationDelay: "520ms" }}
+          className="animate-fade-up mx-auto mt-6 max-w-3xl"
+        >
+          <LiveStats hideLabel />
         </div>
       </div>
     </section>
