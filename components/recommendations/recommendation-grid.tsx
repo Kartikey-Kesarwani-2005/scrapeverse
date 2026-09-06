@@ -14,7 +14,7 @@ export function RecommendationGrid({
   return (
     <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
       {recommendations.map((rec, i) => (
-        <TiltCard key={rec.id}>
+        <TiltCard key={rec.id} maxTilt={1.25}>
           <RecommendationCard
             recommendation={rec}
             index={i}

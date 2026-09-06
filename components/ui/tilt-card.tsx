@@ -51,7 +51,7 @@ export function TiltCard({
       onPointerLeave={handleLeave}
       className={cn("h-full [perspective:1100px]", className)}
     >
-      <div className="h-full transition-transform duration-200 ease-out will-change-transform [transform:perspective(1100px)_rotateX(var(--rx,0deg))_rotateY(var(--ry,0deg))]">
+      <div className="h-full transition-transform duration-300 ease-out will-change-transform [transform:perspective(1100px)_rotateX(var(--rx,0deg))_rotateY(var(--ry,0deg))]">
         {children}
       </div>
     </div>
