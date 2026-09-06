@@ -13,6 +13,7 @@ import {
   SAVED_STATUS_ORDER,
   type SavedIssueStatus,
 } from "@/lib/saved-issue-types";
+import { ConfettiBurst } from "@/components/ui/confetti-burst";
 import { cn } from "@/lib/utils";
 
 interface TrackButtonProps {
@@ -28,7 +29,7 @@ interface TrackButtonProps {
 
 const statusActiveStyles: Record<SavedIssueStatus, string> = {
   interested:
-    "border-primary bg-primary text-white shadow-[0_4px_12px_-4px_rgb(201_54_99/0.5)]",
+    "border-primary bg-primary text-white shadow-[0_4px_12px_-4px_rgb(14_148_136/0.5)]",
   applied: "border-sky bg-sky text-sky-foreground",
   "pr-submitted": "border-mint bg-mint text-mint-foreground",
 };
@@ -39,6 +40,7 @@ export function TrackButton({
 }: TrackButtonProps) {
   const { getStatus, setStatus, remove } = useSavedIssues();
   const [busy, setBusy] = useState(false);
+  const [celebrate, setCelebrate] = useState<number | null>(null);
   const status = getStatus(
     recommendation.organization,
     recommendation.repository,
@@ -62,13 +64,23 @@ export function TrackButton({
         await remove(input);
       } else {
         await setStatus(input, next);
+        if (next === "pr-submitted" || (!status && next === "interested")) {
+          setCelebrate(Date.now());
+        }
       }
     } finally {
       setBusy(false);
     }
   };
 
-  if (!status) {
+  return (
+    <div className="contents">
+      <ConfettiBurst burstKey={celebrate} />
+      {status ? renderStatusControls(status) : renderSaveButton()}
+    </div>
+  );
+
+  function renderSaveButton() {
     return (
       <button
         type="button"
@@ -85,50 +97,51 @@ export function TrackButton({
     );
   }
 
-  const statusIndex = SAVED_STATUS_ORDER.indexOf(status);
-
-  return (
-    <div className="space-y-2">
-      <div
-        role="group"
-        aria-label="Track progress"
-        className="grid grid-cols-3 gap-1 rounded-xl border border-border/70 bg-card/70 p-1"
-      >
-        {SAVED_STATUS_ORDER.map((s, i) => {
-          const active = statusIndex >= i;
-          const isCurrentLevel = statusIndex === i;
-          return (
-            <button
-              key={s}
-              type="button"
-              onClick={() => handleAdvance(s)}
-              disabled={busy || (active && i < statusIndex)}
-              title={SAVED_STATUS_LABELS[s]}
-              className={cn(
-                "cursor-pointer rounded-lg px-1 py-1.5 text-[10px] font-semibold transition-all duration-200",
-                isCurrentLevel
-                  ? statusActiveStyles[s]
-                  : active
-                    ? "text-foreground hover:bg-muted"
-                    : "text-muted-foreground/50 hover:text-secondary-foreground",
-              )}
-            >
-              {SAVED_STATUS_LABELS[s]}
-            </button>
-          );
-        })}
-      </div>
-      {!compact && (
-        <button
-          type="button"
-          onClick={() => remove(input)}
-          disabled={busy}
-          className="flex w-full cursor-pointer items-center justify-center gap-1 rounded-lg py-1 text-[10px] font-semibold text-muted-foreground transition-colors hover:text-destructive disabled:opacity-50"
+  function renderStatusControls(currentStatus: SavedIssueStatus) {
+    const statusIndex = SAVED_STATUS_ORDER.indexOf(currentStatus);
+    return (
+      <div className="space-y-2">
+        <div
+          role="group"
+          aria-label="Track progress"
+          className="grid grid-cols-3 gap-1 rounded-xl border border-border/70 bg-card/70 p-1"
         >
-          <HugeiconsIcon icon={Delete01Icon} size={11} />
-          Remove from tracker
-        </button>
-      )}
-    </div>
-  );
+          {SAVED_STATUS_ORDER.map((s, i) => {
+            const active = statusIndex >= i;
+            const isCurrentLevel = statusIndex === i;
+            return (
+              <button
+                key={s}
+                type="button"
+                onClick={() => handleAdvance(s)}
+                disabled={busy || (active && i < statusIndex)}
+                title={SAVED_STATUS_LABELS[s]}
+                className={cn(
+                  "cursor-pointer rounded-lg px-1 py-1.5 text-[10px] font-semibold transition-all duration-200",
+                  isCurrentLevel
+                    ? statusActiveStyles[s]
+                    : active
+                      ? "text-foreground hover:bg-muted"
+                      : "text-muted-foreground/50 hover:text-secondary-foreground",
+                )}
+              >
+                {SAVED_STATUS_LABELS[s]}
+              </button>
+            );
+          })}
+        </div>
+        {!compact && (
+          <button
+            type="button"
+            onClick={() => remove(input)}
+            disabled={busy}
+            className="flex w-full cursor-pointer items-center justify-center gap-1 rounded-lg py-1 text-[10px] font-semibold text-muted-foreground transition-colors hover:text-destructive disabled:opacity-50"
+          >
+            <HugeiconsIcon icon={Delete01Icon} size={11} />
+            Remove from tracker
+          </button>
+        )}
+      </div>
+    );
+  }
 }

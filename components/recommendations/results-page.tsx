@@ -12,6 +12,7 @@ import { FilterSidebar } from "./filter-sidebar";
 import { EmptyState } from "./empty-state";
 import { JourneyMap } from "./journey-map";
 import { LiveStats } from "@/components/ui/live-stats";
+import { IssueTicker } from "@/components/ui/issue-ticker";
 import { defaultFilters } from "@/lib/constants";
 import { LANGUAGES } from "@/lib/languages";
 import { SavedIssuesProvider } from "@/lib/saved-issues-context";
@@ -190,6 +191,10 @@ export function ResultsPage({
 
         <div className="relative mx-auto max-w-7xl px-4 py-8 sm:px-6">
           <LiveStats />
+
+          <div className="mt-5 rounded-2xl border border-border/60 bg-card/40">
+            <IssueTicker compact />
+          </div>
 
           <div className="mt-6">
             <JourneyMap />

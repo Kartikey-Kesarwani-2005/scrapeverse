@@ -63,7 +63,7 @@ export function ProgressBar({ currentStep, totalSteps }: ProgressBarProps) {
         className="h-1.5 w-full overflow-hidden rounded-full bg-primary-soft"
       >
         <div
-          className="h-full rounded-full bg-linear-to-r from-primary to-[#9b8cf0] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
+          className="h-full rounded-full bg-linear-to-r from-primary to-[#8b7cf0] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
           style={{ width: `${progress}%` }}
         />
       </div>

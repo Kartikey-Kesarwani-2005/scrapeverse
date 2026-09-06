@@ -130,12 +130,13 @@ export function RecommendationCard({
       ref={ref}
       style={{ animationDelay: `${Math.min(index, 8) * 70}ms` }}
       className={cn(
-        "card-shine gloss-border animate-fade-up group relative flex h-full flex-col overflow-hidden rounded-2xl border transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1.5",
+        "card-shine gloss-border holo-card animate-fade-up group relative flex h-full flex-col overflow-hidden rounded-2xl border transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1.5",
         featured
           ? "border-primary/35 bg-gradient-to-b from-primary-softer to-card shadow-glow hover:border-primary/45"
           : "border-border/80 bg-card shadow-soft hover:border-primary/25 hover:shadow-glow",
       )}
     >
+      <div aria-hidden="true" className="holo-spot rounded-2xl" />
       <div className="glass-edge flex flex-1 flex-col p-5">
         {featured && (
           <span className="card-shine relative mb-3 inline-flex w-fit items-center gap-1 overflow-hidden rounded-full bg-gradient-to-r from-primary via-brand-mid to-brand-end px-2.5 py-1 text-[9px] font-bold tracking-[0.14em] whitespace-nowrap text-primary-foreground uppercase shadow-glow animate-fade-in">
@@ -262,7 +263,7 @@ export function RecommendationCard({
               className="size-2 rounded-full"
               style={{
                 backgroundColor:
-                  languageColorMap[recommendation.repoLanguage] ?? "#857079",
+                  languageColorMap[recommendation.repoLanguage] ?? "#5e7f79",
               }}
               aria-hidden="true"
             />
