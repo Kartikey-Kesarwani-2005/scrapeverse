@@ -21,7 +21,7 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
       <main>
         <Hero onGetStarted={onGetStarted} />
         <div className="border-y border-border/60 bg-background/40">
-          <IssueTicker />
+          <IssueTicker onGetStarted={onGetStarted} />
         </div>
         <Features />
         <HowItWorks onGetStarted={onGetStarted} />
