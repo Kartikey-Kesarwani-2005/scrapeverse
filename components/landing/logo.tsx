@@ -55,7 +55,7 @@ export function Logo({ className }: { className?: string }) {
           aria-modal="true"
           aria-label="Scrapeverse logo"
           onClick={() => setOpen(false)}
-          className="fixed inset-0 z-[90] flex items-center justify-center bg-background/80 p-4 backdrop-blur-xl"
+          className="fixed inset-0 z-[90] flex items-center justify-center bg-[#04070c] p-6 sm:p-10"
         >
           <button
             type="button"
