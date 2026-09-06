@@ -30,10 +30,10 @@ export function JourneyMap() {
 
   const milestones = [
     { label: "First saved issue", need: 1, value: total },
-    { label: "5 saved issues", need: 5, value: total },
     { label: "First application", need: 1, value: applied },
     { label: "First PR sent", need: 1, value: pr },
     { label: "3 PRs sent", need: 3, value: pr },
+    { label: "5 saved issues", need: 5, value: total },
     { label: "15 saved issues", need: 15, value: total },
   ];
 
