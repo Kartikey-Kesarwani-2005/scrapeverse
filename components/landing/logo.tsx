@@ -1,25 +1,19 @@
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 export function Logo({ className }: { className?: string }) {
   return (
     <span className={cn("inline-flex items-center gap-2.5", className)}>
-      <span className="relative flex size-8 items-center justify-center rounded-xl bg-linear-to-br from-primary to-brand-end shadow-[0_6px_16px_-4px_rgb(201_54_99/0.5)]">
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="white"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="size-4"
-          aria-hidden="true"
-        >
-          <circle cx="11" cy="11" r="7" />
-          <path d="m20 20-3.5-3.5" />
-          <path d="M11 8.5v5M8.5 11h5" />
-        </svg>
+      <span className="relative flex size-8 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-card ring-1 ring-white/10 shadow-[0_6px_16px_-4px_rgb(14_148_136/0.5),0_0_24px_-8px_rgb(47_212_190/0.55)]">
+        <Image
+          src="/logo.png"
+          alt=""
+          width={1254}
+          height={1254}
+          className="size-full rounded-xl object-cover"
+        />
       </span>
-      <span className="hidden font-heading text-lg font-bold tracking-tight text-foreground sm:inline">
+      <span className="hidden bg-linear-to-r from-foreground via-primary to-brand-end bg-clip-text font-heading text-lg font-bold tracking-tight text-transparent sm:inline">
         Scrapeverse
       </span>
     </span>
