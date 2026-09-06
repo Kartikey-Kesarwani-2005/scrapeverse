@@ -30,14 +30,13 @@ function EffortStat({
   accent?: string;
 }) {
   return (
-    <span className="flex min-w-0 items-center gap-1.5 text-[11px] text-muted-foreground">
+    <div className="flex min-w-0 flex-col items-center gap-1 text-center">
       <span className="shrink-0 text-secondary-foreground/70">{icon}</span>
-      <span className="truncate">
-        <span className="font-semibold text-foreground">{value}</span>
-        <span className="text-muted-foreground/80"> · {label}</span>
+      <span className="max-w-full text-[10px] font-medium tracking-wider text-muted-foreground/80 uppercase">
+        {label}
       </span>
-      {accent ? accent : null}
-    </span>
+      <span className={cn("truncate text-xs font-bold", accent)}>{value}</span>
+    </div>
   );
 }
 
@@ -47,31 +46,23 @@ export function EffortMeter({ effort }: { effort: EffortEstimate }) {
 
   return (
     <div className="animate-slide-up-sm rounded-xl bg-card/60 p-3 ring-1 ring-border/60">
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+      <div className="grid grid-cols-3 divide-x divide-border/60">
         <EffortStat
           icon={<HugeiconsIcon icon={Clock01Icon} size={13} />}
-          label="effort"
+          label="Time to fix"
           value={effort.timeLabel}
         />
-        <span aria-hidden="true" className="text-border">
-          ·
-        </span>
         <EffortStat
           icon={<HugeiconsIcon icon={Target01Icon} size={13} />}
-          label="scope"
+          label="Change size"
           value={scope}
         />
-        <span aria-hidden="true" className="text-border">
-          ·
-        </span>
-        <span className="flex items-center gap-1.5 text-[11px]">
-          <span className="shrink-0 text-secondary-foreground/70">
-            <HugeiconsIcon icon={Shield01Icon} size={13} />
-          </span>
-          <span className={cn("font-semibold", riskStyles[effort.risk])}>
-            {effort.riskLabel}
-          </span>
-        </span>
+        <EffortStat
+          icon={<HugeiconsIcon icon={Shield01Icon} size={13} />}
+          label="Risk"
+          value={effort.riskLabel}
+          accent={riskStyles[effort.risk]}
+        />
       </div>
 
       <button
