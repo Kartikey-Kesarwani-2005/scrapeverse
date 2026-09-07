@@ -54,7 +54,7 @@ export function GlowOrbs({
 
   return (
     <div aria-hidden="true" className="absolute inset-0 -z-10">
-      <div className="bg-grid-rose mask-fade-b absolute inset-0" />
+      <div className="bg-grid-aurora mask-fade-b absolute inset-0" />
       {orbs.map((orb, i) => (
         <div
           key={i}

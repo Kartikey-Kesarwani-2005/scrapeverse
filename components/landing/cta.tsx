@@ -26,7 +26,7 @@ export function Cta({ onGetStarted }: CtaProps) {
             />
             <div
               aria-hidden="true"
-              className="absolute inset-0 bg-grid-rose opacity-30"
+              className="absolute inset-0 bg-grid-aurora opacity-30"
               style={{
                 backgroundImage:
                   "linear-gradient(to right, rgb(255 255 255 / 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgb(255 255 255 / 0.06) 1px, transparent 1px)",

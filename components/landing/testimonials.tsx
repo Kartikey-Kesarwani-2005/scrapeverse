@@ -50,7 +50,7 @@ export function Testimonials() {
           <div className="grid grid-cols-2 gap-y-10 rounded-3xl border border-border/80 bg-linear-to-br from-[#f0faf7] via-white to-[#f4f1ff] px-6 py-10 shadow-soft sm:px-12 lg:grid-cols-4 dark:from-[#0b1315] dark:via-[#0c1417] dark:to-[#100f1f]">
             {stats.map((stat) => (
               <div key={stat.label} className="text-center">
-                <p className="font-heading text-3xl font-extrabold tracking-tight text-gradient-rose sm:text-4xl">
+                <p className="font-heading text-3xl font-extrabold tracking-tight text-gradient-aurora sm:text-4xl">
                   {stat.value}
                 </p>
                 <p className="mt-1.5 text-xs font-medium text-muted-foreground sm:text-sm">

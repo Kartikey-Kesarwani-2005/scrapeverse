@@ -553,7 +553,7 @@
 }
 
 @layer utilities {
-  .text-gradient-rose {
+  .text-gradient-aurora {
     background: linear-gradient(
       120deg,
       var(--primary) 0%,
@@ -565,7 +565,7 @@
     color: transparent;
   }
 
-  .bg-grid-rose {
+  .bg-grid-aurora {
     background-image:
       linear-gradient(to right, rgb(14 148 136 / 0.05) 1px, transparent 1px),
       linear-gradient(to bottom, rgb(14 148 136 / 0.05) 1px, transparent 1px);
@@ -816,7 +816,7 @@
 /*  Dark adaptations for fixed-color utilities                         */
 /* ------------------------------------------------------------------ */
 
-.dark .text-gradient-rose {
+.dark .text-gradient-aurora {
   background-image: linear-gradient(
     120deg,
     var(--primary) 0%,
@@ -853,7 +853,7 @@
   );
 }
 
-.dark .bg-grid-rose {
+.dark .bg-grid-aurora {
   background-image:
     linear-gradient(to right, rgb(47 212 190 / 0.05) 1px, transparent 1px),
     linear-gradient(to bottom, rgb(47 212 190 / 0.05) 1px, transparent 1px);
