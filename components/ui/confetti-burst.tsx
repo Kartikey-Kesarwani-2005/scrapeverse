@@ -26,7 +26,7 @@ interface Piece {
 const COLORS = [
   "#2fd4be",
   "#8b7cf0",
-  "#ff6fa5",
+  "#41e6c7",
   "#ecc069",
   "#5eb5f5",
 ];

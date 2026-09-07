@@ -12,46 +12,119 @@ const BLIPS = [
   { x: 46, y: 70, color: "#ecc069", match: false },
   { x: 32, y: 58, color: "#5eb5f5", match: false },
   { x: 58, y: 46, color: "#2fd4be", match: true },
-  { x: 78, y: 34, color: "#ff6fa5", match: false },
+  { x: 78, y: 34, color: "#5eb5f5", match: false },
 ];
 
-const SCAN_LINES = [
-  "probing rust-lang/rust-analyzer · 2,318 open issues",
+const FALLBACK_LINES = [
+  "sweeping GitHub for fresh activity · watching trending repos",
   "matched 94% — language / interest / repo health",
-  "indexing denoland/deno · 100,480 stars mapped",
-  "12 good-first-issues found inside your stack",
-  "sweep complete · 1,204 issues ranked for you",
+  "indexing new pushes across monitored repos",
+  "ranking repos updated in the last 24 hours",
+  "sweep complete · latest pushes mapped",
 ];
 
-function TypewriterConsole() {
+interface Activity {
+  totalRepos: number;
+  updated24h: number;
+  updated7d: number;
+  recentlyPushed: {
+    fullName: string;
+    language: string | null;
+    stars: number;
+    pushedAt: string | null;
+  }[];
+  recentlyScraped: {
+    fullName: string;
+    language: string | null;
+    openIssues: number;
+    scrapedAt: string;
+  }[];
+}
+
+function timeAgo(iso: string) {
+  const seconds = Math.max(
+    1,
+    Math.floor((Date.now() - new Date(iso).getTime()) / 1000),
+  );
+  if (seconds < 45) return "just now";
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `${minutes}m ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+  return `${Math.floor(hours / 24)}d ago`;
+}
+
+function makeLines(activity: Activity | null): string[] {
+  if (!activity) return FALLBACK_LINES;
+  const pushed = activity.recentlyPushed;
+  const scraped = activity.recentlyScraped;
+  const lines: string[] = [];
+
+  if (pushed[0]) {
+    lines.push(
+      `${pushed[0].fullName} pushed ${timeAgo(pushed[0].pushedAt ?? "")}`,
+    );
+  }
+  if (activity.updated24h > 0) {
+    lines.push(
+      `${activity.updated24h.toLocaleString()} repos updated in the last 24h`,
+    );
+  }
+  if (scraped[0]) {
+    lines.push(
+      `${scraped[0].fullName} · ${scraped[0].openIssues} open issues matched`,
+    );
+  }
+  if (activity.updated7d > 0) {
+    lines.push(
+      `${activity.updated7d.toLocaleString()} pushes this week across the radar`,
+    );
+  }
+  if (pushed[1]) {
+    lines.push(
+      `tracking ${pushed[1].fullName} · ${pushed[1].stars.toLocaleString()} stars`,
+    );
+  }
+  while (lines.length < 5) lines.push(FALLBACK_LINES[lines.length]!);
+
+  return lines;
+}
+
+function TypewriterConsole({ lines }: { lines: string[] }) {
   const [line, setLine] = useState(0);
   const [chars, setChars] = useState(0);
 
   useEffect(() => {
-    const current = SCAN_LINES[line];
+    const current = lines[line];
+    if (!current) return;
     if (chars < current.length) {
       const t = setTimeout(() => setChars(chars + 1), 24);
       return () => clearTimeout(t);
     }
     const t = setTimeout(() => {
-      setLine((line + 1) % SCAN_LINES.length);
+      setLine((line + 1) % lines.length);
       setChars(0);
     }, 1100);
     return () => clearTimeout(t);
-  }, [chars, line]);
+  }, [chars, line, lines]);
 
   return (
     <p className="min-h-6 truncate font-mono text-[11px] leading-6 sm:text-xs">
       <span className="text-primary">→</span>{" "}
-      <span className="text-foreground">
-        {SCAN_LINES[line].slice(0, chars)}
-      </span>
+      <span className="text-foreground">{lines[line]?.slice(0, chars)}</span>
       <span className="animate-pulse-dot">▍</span>
     </p>
   );
 }
 
-function HubAccent({ className }: { className: string }) {
+function HubAccent({
+  className,
+  activity,
+}: {
+  className: string;
+  activity: Activity | null;
+}) {
+  const latest = activity?.recentlyPushed[0];
   return (
     <div
       aria-hidden="true"
@@ -61,14 +134,28 @@ function HubAccent({ className }: { className: string }) {
         <HugeiconsIcon icon={SparklesIcon} size={15} />
       </span>
       <div>
-        <p className="text-xs font-semibold text-foreground">94% match</p>
-        <p className="text-[10px] text-muted-foreground">based on your stack</p>
+        <p className="max-w-[10rem] truncate font-mono text-xs font-semibold text-foreground">
+          {latest ? latest.fullName : "waiting for pushes"}
+        </p>
+        <p className="text-[10px] text-muted-foreground">
+          {latest
+            ? `pushed ${timeAgo(latest.pushedAt ?? "")}`
+            : "scanning github"}
+        </p>
       </div>
     </div>
   );
 }
 
-function FabAccent({ className }: { className: string }) {
+function FabAccent({
+  className,
+  activity,
+}: {
+  className: string;
+  activity: Activity | null;
+}) {
+  const value =
+    activity?.updated24h ?? (activity ? activity.updated7d : null) ?? null;
   return (
     <div
       aria-hidden="true"
@@ -79,26 +166,59 @@ function FabAccent({ className }: { className: string }) {
       </span>
       <div>
         <p className="font-mono text-xs font-semibold text-primary tabular-nums">
-          1,204 issues
+          {value !== null ? `${value.toLocaleString()} repos` : "… repos"}
         </p>
-        <p className="text-[10px] text-muted-foreground">indexed · live</p>
+        <p className="text-[10px] text-muted-foreground">updated · live</p>
       </div>
     </div>
   );
 }
 
 export function RadarDeck() {
+  const [activity, setActivity] = useState<Activity | null>(null);
+  const [loaded, setLoaded] = useState(false);
+  const lines = makeLines(activity);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const load = async () => {
+      try {
+        const res = await fetch("/api/repos/activity", {
+          cache: "no-store",
+        });
+        if (!res.ok || cancelled) return;
+        const data = await res.json();
+        if (cancelled) return;
+        setActivity(data);
+        setLoaded(true);
+      } catch {
+        if (!cancelled) setLoaded(true);
+      }
+    };
+
+    load();
+    const refresh = setInterval(load, 60_000);
+
+    return () => {
+      cancelled = true;
+      clearInterval(refresh);
+    };
+  }, []);
+
   return (
     <div className="animate-fade-up relative mx-auto w-full max-w-2xl">
       <div className="card-shine relative overflow-hidden rounded-2xl border border-border/80 bg-card/60 shadow-lift backdrop-blur-xl">
         {/* HUD header */}
         <div className="flex items-center justify-between gap-3 border-b border-border/70 bg-card/70 px-4 py-2.5">
           <span className="flex items-center gap-2 font-mono text-[10px] font-medium tracking-[0.22em] text-muted-foreground uppercase">
-            <span className="size-1.5 animate-pulse-dot rounded-full bg-success" />
+            <span
+              className={`size-1.5 rounded-full ${loaded && activity ? "animate-pulse-dot bg-success" : "bg-muted-foreground/40"}`}
+            />
             Target sweep
           </span>
           <span className="hidden font-mono text-[10px] tracking-[0.22em] text-muted-foreground/70 uppercase sm:block">
-            scrapeverse / orbit-01
+            github / live-activity
           </span>
         </div>
 
@@ -179,13 +299,42 @@ export function RadarDeck() {
 
         {/* Console */}
         <div className="border-t border-border/70 bg-card/70 px-4 py-3">
-          <TypewriterConsole />
+          <TypewriterConsole lines={lines} />
         </div>
+
+        {/* Recent uploads */}
+        {activity && activity.recentlyPushed.length > 0 && (
+          <div className="flex flex-wrap items-center gap-1.5 border-t border-border/60 bg-card/40 px-4 py-2.5">
+            <span className="mr-1 font-mono text-[9px] tracking-[0.2em] text-muted-foreground/70 uppercase">
+              pushed
+            </span>
+            {activity.recentlyPushed.map((r) => (
+              <span
+                key={r.fullName}
+                className="inline-flex max-w-[11rem] items-center gap-1.5 rounded-full border border-border/60 bg-card/80 py-0.5 pr-2 pl-1.5 text-[10px] text-muted-foreground"
+              >
+                <span className="size-1 rounded-full bg-primary/70" />
+                <span className="truncate font-mono font-medium text-secondary-foreground">
+                  {r.fullName}
+                </span>
+                <span className="text-[9px] text-muted-foreground/60">
+                  {timeAgo(r.pushedAt ?? "")}
+                </span>
+              </span>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* HUD accents */}
-      <HubAccent className="animate-float -top-8 -right-3 hidden lg:flex" />
-      <FabAccent className="animate-float-delayed -bottom-8 -left-3 hidden lg:flex" />
+      <HubAccent
+        className="animate-float -top-8 -left-3 hidden lg:flex"
+        activity={activity}
+      />
+      <FabAccent
+        className="animate-float-delayed -bottom-8 -right-3 hidden lg:flex"
+        activity={activity}
+      />
     </div>
   );
 }

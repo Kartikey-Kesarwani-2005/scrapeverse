@@ -6,7 +6,7 @@
 
 /* ------------------------------------------------------------------ */
 /*  Scrapeverse Design Tokens — Bioluminescent Aurora                  */
-/*  Light: sea-glass ice + punchy lagoon teal + violet + aurora pink  */
+/*  Light: sea-glass ice + punchy lagoon teal + violet + aurora ice-blue  */
 /* ------------------------------------------------------------------ */
 
 :root {
@@ -62,7 +62,7 @@
   /* Charts — aurora chords */
   --chart-1: #0e9488;
   --chart-2: #8b7cf0;
-  --chart-3: #ff6fa5;
+  --chart-3: #41e6c7;
   --chart-4: #e9a23b;
   --chart-5: #4aa3f5;
 
@@ -154,7 +154,7 @@
   /* Charts — bioluminescent-led */
   --chart-1: #2fd4be;
   --chart-2: #8b7cf0;
-  --chart-3: #ff6fa5;
+  --chart-3: #41e6c7;
   --chart-4: #ecc069;
   --chart-5: #5eb5f5;
 
@@ -613,7 +613,7 @@
       transparent 0%,
       #2fd4be 8%,
       #8b7cf0 16%,
-      #ff6fa5 24%,
+      #5eb5f5 24%,
       transparent 34%,
       transparent 100%
     );
@@ -694,7 +694,7 @@
       ),
       radial-gradient(
         34rem 28rem at 50% 112%,
-        rgb(255 111 165 / 0.08),
+        rgb(94 181 245 / 0.08),
         transparent 64%
       );
   }
@@ -888,21 +888,21 @@
     ),
     radial-gradient(
       34rem 28rem at 50% 112%,
-      rgb(255 111 165 / 0.05),
+      rgb(94 181 245 / 0.05),
       transparent 64%
     );
 }
 
 .dark .gloss-border::before {
   background: conic-gradient(
-    from var(--gloss-angle),
-    transparent 0%,
-    #2fd4be 8%,
-    #41e6c7 16%,
-    #ff6fa5 24%,
-    transparent 34%,
-    transparent 100%
-  );
+      from var(--gloss-angle),
+      transparent 0%,
+      #2fd4be 8%,
+      #41e6c7 16%,
+      #5eb5f5 24%,
+      transparent 34%,
+      transparent 100%
+    );
 }
 
 /* Phosphor-teal surfaces flip "white" labels to abyssal ink for contrast */

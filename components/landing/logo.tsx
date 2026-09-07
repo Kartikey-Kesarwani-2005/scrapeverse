@@ -34,7 +34,7 @@ export function Logo({ className }: { className?: string }) {
             e.stopPropagation();
             setOpen(true);
           }}
-          className="relative flex size-8 shrink-0 cursor-zoom-in items-center justify-center overflow-hidden rounded-xl bg-card ring-1 ring-white/10 shadow-[0_6px_16px_-4px_rgb(14_148_136/0.5),0_0_24px_-8px_rgb(47_212_190/0.55)] transition-transform hover:scale-105"
+          className="relative flex size-8 shrink-0 cursor-zoom-in items-center justify-center overflow-hidden rounded-xl bg-card ring-1 ring-border/40 shadow-[0_6px_16px_-4px_rgb(14_148_136/0.5),0_0_24px_-8px_rgb(47_212_190/0.55)] transition-transform hover:scale-105"
         >
           <Image
             src="/logo.png"
@@ -74,7 +74,7 @@ export function Logo({ className }: { className?: string }) {
             width={1254}
             height={1254}
             onClick={(e) => e.stopPropagation()}
-            className="animate-step-in max-h-[80vh] max-w-full rounded-3xl object-contain shadow-glow ring-1 ring-white/10"
+            className="animate-step-in max-h-[80vh] max-w-full rounded-3xl object-contain shadow-glow ring-1 ring-border/40"
           />
         </div>
       )}

@@ -29,7 +29,7 @@ const testimonials = [
     name: "Sofia Reyes",
     role: "Backend engineer",
     initials: "SR",
-    tint: "from-[#8b7cf0] to-[#c084fc]",
+    tint: "from-[#8b7cf0] to-[#5eb5f5]",
   },
   {
     quote:
@@ -37,7 +37,7 @@ const testimonials = [
     name: "Daniel Kim",
     role: "Engineering manager",
     initials: "DK",
-    tint: "from-[#ff9a76] to-[#ff6fa5]",
+    tint: "from-[#41e6c7] to-[#12b5a3]",
   },
 ];
 

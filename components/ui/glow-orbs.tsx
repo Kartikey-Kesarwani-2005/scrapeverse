@@ -21,9 +21,9 @@ const HERO_ORBS: OrbDefinition[] = [
   },
   {
     cls: "animate-float-delayed absolute top-48 -right-24 size-80",
-    bg: "bg-[radial-gradient(closest-side,rgb(255_111_165/0.13),transparent)]",
+    bg: "bg-[radial-gradient(closest-side,rgb(94_181_245/0.13),transparent)]",
     darkBg:
-      "dark:bg-[radial-gradient(closest-side,rgb(255_111_165/0.12),transparent)]",
+      "dark:bg-[radial-gradient(closest-side,rgb(94_181_245/0.12),transparent)]",
   },
 ];
 
@@ -40,7 +40,7 @@ const COMPACT_ORBS: OrbDefinition[] = [
   },
   {
     cls: "animate-float-delayed absolute right-[-6rem] bottom-10 size-72",
-    bg: "bg-[radial-gradient(closest-side,rgb(255_111_165/0.11),transparent)]",
+    bg: "bg-[radial-gradient(closest-side,rgb(94_181_245/0.11),transparent)]",
     darkBg: "",
   },
 ];

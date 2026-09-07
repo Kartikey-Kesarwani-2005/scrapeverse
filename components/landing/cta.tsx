@@ -49,7 +49,7 @@ export function Cta({ onGetStarted }: CtaProps) {
                 <Button
                   size="xl"
                   onClick={onGetStarted}
-                  className="w-full bg-white text-primary shadow-[0_12px_32px_-8px_rgb(0_0_0/0.35)] hover:bg-white hover:shadow-[0_16px_40px_-8px_rgb(0_0_0/0.4)] sm:w-auto"
+                  className="w-full bg-white text-primary shadow-[0_12px_32px_-8px_rgb(0_0_0/0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_16px_40px_-8px_rgb(0_0_0/0.4)] hover:brightness-105 active:scale-[0.98] sm:w-auto"
                 >
                   Get started — it&apos;s free
                   <HugeiconsIcon icon={ArrowRight01Icon} />

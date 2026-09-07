@@ -51,9 +51,9 @@ function LiveStage({ item }: { item: RecentItem }) {
       <span className="relative flex size-2.5 shrink-0">
         <span
           aria-hidden="true"
-          className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#ff6fa5] opacity-75"
+          className="absolute inline-flex h-full w-full animate-ping rounded-full bg-chart-3 opacity-75"
         />
-        <span className="relative inline-flex size-2.5 rounded-full bg-[#ff6fa5]" />
+        <span className="relative inline-flex size-2.5 rounded-full bg-chart-3" />
       </span>
       <span className="min-w-0 flex-1">
         <span className="flex items-center gap-2 font-mono text-[11px] font-semibold text-secondary-foreground sm:text-xs">
@@ -160,9 +160,9 @@ export function IssueTicker({
             <span className="relative flex size-2 shrink-0">
               <span
                 aria-hidden="true"
-                className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#ff6fa5] opacity-75"
+                className="absolute inline-flex h-full w-full animate-ping rounded-full bg-chart-3 opacity-75"
               />
-              <span className="relative inline-flex size-2 rounded-full bg-[#ff6fa5]" />
+              <span className="relative inline-flex size-2 rounded-full bg-chart-3" />
             </span>
             <p className="text-xs font-semibold text-foreground sm:text-sm">
               Live stream{" "}
@@ -186,9 +186,9 @@ export function IssueTicker({
             <span className="relative flex size-1.5">
               <span
                 aria-hidden="true"
-                className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#ff6fa5] opacity-75"
+                className="absolute inline-flex h-full w-full animate-ping rounded-full bg-chart-3 opacity-75"
               />
-              <span className="relative inline-flex size-1.5 rounded-full bg-[#ff6fa5]" />
+              <span className="relative inline-flex size-1.5 rounded-full bg-chart-3" />
             </span>
             Live right now
           </span>
