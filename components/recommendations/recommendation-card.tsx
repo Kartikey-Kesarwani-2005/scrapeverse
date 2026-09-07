@@ -1,5 +1,6 @@
 "use client";
 
+import { type CSSProperties } from "react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   ArrowUpRight01Icon,
@@ -95,9 +96,10 @@ export function RecommendationCard({
   return (
     <article
       ref={ref}
-      style={{ animationDelay: `${Math.min(index, 8) * 70}ms` }}
+      data-visible={inView}
+      style={{ "--card-delay": `${(index % 3) * 90}ms` } as CSSProperties}
       className={cn(
-        "card-shine gloss-border holo-card animate-fade-up group relative flex h-full flex-col overflow-hidden rounded-2xl border transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1",
+        "card-shine gloss-border holo-card card-reveal group relative flex h-full flex-col overflow-hidden rounded-2xl border transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1",
         featured
           ? "border-primary/35 bg-gradient-to-b from-primary-softer to-card shadow-glow hover:border-primary/45"
           : "border-border/80 bg-card shadow-soft hover:border-primary/25 hover:shadow-glow",
